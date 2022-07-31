@@ -1,0 +1,72 @@
+<div class="movie-modal" [@modalShowHide]="showHideState">
+    <div class="movie-modal-container" >
+        <ng-container *ngIf="movieData && !isLoading; else loading">
+            <div class="movie-modal-container_left">
+                <img class="movie-poster" src="{{movieData.Poster}}" alt="">
+                <img class="wishlist-icon" src="assets/icons/love.svg" alt="wishlist" (click)="onAddToWishlist()">
+            </div>
+            <div class="movie-modal-container_right">
+                <div class="top">
+                    <div class="movie-name-year">
+                        <h2 class="name">{{movieData.Title}}</h2>
+                        <h2 class="year">{{movieData.Year}}</h2>
+                    </div>
+                    <div class="imdb-info">
+                        <div class="imdb-rating">
+                            <img  class="imdb-icon" src="assets/icons/imdb.svg" alt="imdb">
+                            <h4 class="score" >{{movieData.imdbRating}}</h4>
+                        </div>
+                        <h5 class="votes">Votes: {{movieData.imdbVotes}}</h5>
+                    </div>                    
+                </div>              
+                <div class="additional-info">
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Plot:</h4>
+                        <p>{{movieData.Plot}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Actors:</h4>
+                        <p>{{movieData.Actors}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Genre:</h4>
+                        <p>{{movieData.Genre}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Country:</h4>
+                        <p>{{movieData.Country}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Languages:</h4>
+                        <p>{{movieData.Language}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Awards:</h4>
+                        <p>{{movieData.Awards}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Length:</h4>
+                        <p>{{movieData.Runtime}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Director:</h4>
+                        <p>{{movieData.Director}}</p>
+                    </div>
+                    <div class="additional-info-item">
+                        <h4 class="mini-header">Director:</h4>
+                        <p>{{movieData.Writer}}</p>
+                    </div>
+                </div>
+            </div>            
+        </ng-container>
+        <img class="close-modal" src="assets/icons/close.svg" alt="close-modal" (click)="onCloseModal()">
+    </div>
+
+</div>
+
+<ng-template #loading>
+    <div class="message-item">
+        <img src="assets/images/loader.gif" alt="loading">
+        <h3 >Loading movie data</h3>
+    </div>
+</ng-template>

@@ -1,0 +1,12 @@
+<div class="search-results-item" (click)="onMovieSelect()">
+    <div class="search-results-item_poster">
+        <img src="{{movie.Poster}}" alt="movie-poster" onerror="this.src='assets/images/default-poster.jpg'">
+    </div>
+    <div class="shadow">
+        <div class="info">
+            <h4 class="title">{{movie.Title}}</h4>
+            <h4 class="year">{{movie.Year}}</h4>
+        </div>
+    </div>
+    <img *ngIf="showRemove" class="remove-item" src="assets/icons/remove.svg" alt="Remove from wishlist" (click)="removeFromWishlist()">
+</div>

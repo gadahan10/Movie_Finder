@@ -1,0 +1,61 @@
+.search-results-item {
+    width: 24rem;
+    height: 34rem;
+    overflow: hidden;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    position: relative;
+
+    &:hover .shadow {
+        opacity: 1;
+        bottom: 0;
+    }
+
+    .remove-item {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
+        width: 3rem;
+        cursor: pointer;
+    }
+
+    .search-results-item_poster {
+        display: flex;
+        align-items: center;
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 0.6rem;
+        }
+    }
+
+    .shadow {
+        position: absolute;
+        bottom: -5rem;
+        height: 34rem;
+        width: 100%;
+        background: linear-gradient(0deg, rgba(0,0,0,0.8015581232492998) 0%, rgba(9,9,121,0) 60%, rgba(0,212,255,0) 41%);
+        opacity: 0;
+        transition: .5s;
+
+        .info {
+            position: absolute;
+            bottom: 1rem;
+            padding: 0 2rem;
+
+            .title {
+                font-size: 2rem;
+                color: white;
+                margin-bottom: 1rem;
+            }
+    
+            .year {
+                color: white;
+                font-size: 1.6rem;
+            }
+
+        }
+        
+    }
+}

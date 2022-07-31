@@ -1,0 +1,15 @@
+.search-results-container {
+
+    position: relative;
+
+    .results {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 24rem);
+        justify-content: space-between;
+        grid-column-gap: 4rem;
+        grid-row-gap: 4rem;
+    }
+
+    
+}

@@ -1,0 +1,52 @@
+<div class="search-page-container" [ngClass]="{'blurred': isModalOpened}">
+    <div class="navbar">
+        <div class="navbar-item">
+            <h1 style="color: white; font-family: Inter">Weiss Cinema</h1>
+        </div>
+        <form class="navbar-item" [formGroup]="searchTermForm">
+            <input type="text" placeholder="Search movie" [(ngModel)]="searchVal" formControlName="searchTerm" #searchInput>
+        </form>
+        <div class="navbar-item profile">
+            <img class="profile-picture" [src]="'assets/images/Gad-profile.jpg'" alt="">
+            <h4 class="profile-name">Gad Dahan</h4>
+        </div>
+    </div>
+    <div class="content" >
+        <div class="content_left">    
+            <div class="results" *ngIf="pageState === 2; else infoMessages">
+                <h4 class="search-title">Search results for '{{searchVal}}'</h4>
+                <search-results [results]="searchResults"></search-results>
+            </div>
+            <!-- 3. Initial state -->
+            <div class="initial-state-message" >
+                <h3>To search a movie, please type in search bar</h3>
+            </div>
+        </div>
+        <div class="content_right">
+            <wishlist></wishlist>
+        </div>       
+    </div>
+</div>
+
+<ng-template #infoMessages>
+    <div class="page-message-container" [ngSwitch]="pageState">
+        <div class="message-item" *ngSwitchCase="1">
+            <img src="assets/icons/tv.svg" alt="start" [ngStyle]="{'filter': 'invert(0)'}">
+            <h3 >To search a movie, please type in search bar</h3>
+        </div>
+        <div class="message-item" *ngSwitchCase="3">
+            <img class="loader" src="assets/images/loader.gif" alt="loading">
+            <h3 >Searching...</h3>
+        </div>
+        <div class="message-item" *ngSwitchCase="4">
+            <img src="assets/icons/bankrupt.svg" alt="error">
+            <h3 >Oops, something went wrong, please try again</h3>
+        </div>
+        <div class="message-item" *ngSwitchCase="5">
+            <img src="assets/icons/noresults.svg" alt="error">
+            <h3 >No results fround for '{{searchVal}}'</h3>
+        </div>
+    </div>
+</ng-template>
+
+<movie-modal [showHideState]="isModalOpened ? 'show' : 'hide'"></movie-modal>

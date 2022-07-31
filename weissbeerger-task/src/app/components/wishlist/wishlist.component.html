@@ -1,0 +1,13 @@
+<div class="wishlist-container">
+    <div class="header">
+        <img class="wishlist-icon" src="assets/icons/love.svg" alt="wishlist">
+        <h3 class="wishlist-title">Wishlist ({{wishlistItems.length}})</h3>
+    </div>
+    <div class="list">
+        <search-results-item *ngFor="let movie of wishlistItems" 
+            [movie]="movie" 
+            [showRemove]="true"
+            (removeFromWishlistEvent)="removeFromWishlist($event)">
+        </search-results-item>
+    </div>
+</div>

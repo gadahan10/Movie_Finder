@@ -18,7 +18,7 @@ export class SearchPageComponent implements OnInit, AfterViewInit {
 	searchVal: string = '';
 	subscription: Subscription;
 	isModalOpened: boolean;
-	
+
 	private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 	@ViewChild('searchInput') input: ElementRef
@@ -26,51 +26,57 @@ export class SearchPageComponent implements OnInit, AfterViewInit {
 	searchTermForm = new FormGroup({
 		searchTerm: new FormControl('', [Validators.pattern(RegexPattern.TEXT), Validators.min(3), Validators.max(40)])
 	});
-	
-	constructor(private _movieSearchService: MovieSearchService, private _eventService: EventService) { }
 
-	ngAfterViewInit(): void {
-		fromEvent<any>(this.input.nativeElement, 'keyup')
-		.pipe(
-			debounceTime(500),			
-			filter(() => this.searchTermForm.valid),
-			tap(() => this.pageState = SearchPageState.LOADER),
-			distinctUntilChanged(),			
-			switchMap(() => this._movieSearchService.onSearchMovie(this.searchVal.toLowerCase()))
-		).subscribe((result: ImdbResult) => {
-			
-			if (result && result.totalResults > 0) {
-				this.pageState = SearchPageState.RESULTS;
-				this.searchResults = result.Search;
-			}
-			else {
-				if (this.searchVal == '') {
-					this.pageState = SearchPageState.INITIAL;
-				}
-				else if (result == null || (result && result.totalResults == 0)) {
-					this.pageState = SearchPageState.NOT_FOUND;
-				}
-			}
-			
-		},
-		catchError => {
-			if (this.searchVal === '') {
-				this.pageState = SearchPageState.INITIAL;
-			}
-			else {
-				this.pageState = SearchPageState.ERROR;
-			}			
-		});
-	}
+	constructor(private _movieSearchService: MovieSearchService, private _eventService: EventService) { }
 
 	ngOnInit(): void {
 		this._eventService.modalShowHideMessage
 			.pipe(
 				takeUntil(this.destroyed$)
 			)
-			.subscribe((isOpened: boolean) => {				
+			.subscribe((isOpened: boolean) => {
 				this.isModalOpened = isOpened;
 			})
+	}
+
+	ngAfterViewInit(): void {
+
+		this.searchTermForm.get('searchTerm')?.valueChanges.pipe(
+			debounceTime(500),
+			distinctUntilChanged()
+		)
+			.subscribe((e) => {
+				console.log(this.searchTermForm.valid)
+				if (this.searchTermForm.valid) {
+					this.pageState = SearchPageState.LOADER
+					this._movieSearchService.onSearchMovie(this.searchVal.toLowerCase())
+						.subscribe((result: ImdbResult) => {
+							if (result && result.totalResults > 0) {
+								this.pageState = SearchPageState.RESULTS;
+								this.searchResults = result.Search;
+							}
+							else {
+								if (this.searchVal == '') {
+									this.pageState = SearchPageState.INITIAL;
+								}
+								else if (result == null || (result && result.totalResults == 0)) {
+									this.pageState = SearchPageState.NOT_FOUND;
+								}
+							}
+						},
+							catchError => {
+								if (this.searchVal === '') {
+									this.pageState = SearchPageState.INITIAL;
+								}
+								else {
+									this.pageState = SearchPageState.ERROR;
+								}
+							});
+				}
+				else {
+					this.pageState = SearchPageState.INVALID;
+				}
+			});
 	}
 }
 
@@ -79,5 +85,6 @@ export enum SearchPageState {
 	RESULTS = 2,
 	LOADER = 3,
 	ERROR = 4,
-	NOT_FOUND = 5
+	NOT_FOUND = 5,
+	INVALID = 6
 }

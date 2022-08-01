@@ -29,7 +29,8 @@
     <div class="page-message-container" [ngSwitch]="pageState">
         <div class="message-item" *ngSwitchCase="1">
             <img src="assets/icons/tv.svg" alt="start" [ngStyle]="{'filter': 'invert(0)'}">
-            <h3 >To search a movie, please type in search bar</h3>
+            <h3 >To search a movie, please type in the search bar</h3>
+            <h2 >* Minimum input - 3 characters, letters and numbers only</h2>
         </div>
         <div class="message-item" *ngSwitchCase="3">
             <img class="loader" src="assets/images/loader.gif" alt="loading">
@@ -42,6 +43,10 @@
         <div class="message-item" *ngSwitchCase="5">
             <img src="assets/icons/noresults.svg" alt="error">
             <h3 >No results fround for '{{searchVal}}'</h3>
+        </div>
+        <div class="message-item" *ngSwitchCase="6">
+            <img src="assets/icons/error.svg" alt="error">
+            <h3 >invalid input - search must be characters and numbers only</h3>
         </div>
     </div>
 </ng-template>
